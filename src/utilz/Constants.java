@@ -58,7 +58,7 @@ public class Constants {
         public static final int PIRATE_DRAWOFFSET_Y =(int)(19 * PIRATE_SCALE);
 
         public static final int PIRATE_HITBOX_WIDTH_DEFAULT=37;
-        public static final int PIRATE_HITBOX_HEIGHT_DEFAULT=45;
+        public static final int PIRATE_HITBOX_HEIGHT_DEFAULT=42;
 
         public static final int PIRATE_HITBOX_WIDTH=(int)(PIRATE_HITBOX_WIDTH_DEFAULT * PIRATE_SCALE);
         public static final int PIRATE_HITBOX_HEIGHT=(int)(PIRATE_HITBOX_HEIGHT_DEFAULT * PIRATE_SCALE);

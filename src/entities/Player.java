@@ -49,7 +49,7 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset) - ylvlOffset, width, height, null);
         // g.drawImage(animations[playerAction][aniIndex], (int)(hitbox.x-xDrawOffset),
         // (int)(hitbox.y-yDrawOffset), 124, 124,null);
-        drawHitbox(g, xlvlOffset, ylvlOffset);
+        // drawHitbox(g, xlvlOffset, ylvlOffset);
 
     }
 

@@ -13,9 +13,9 @@ public class HelpMethods {
         // return true;
 
         if (!IsSolid(x, y, lvlData)) {
-            if (!IsSolid(x + width, y + height , lvlData)) {
-                if (!IsSolid(x + width , y , lvlData)) {
-                    if (!IsSolid(x, y + height , lvlData)) {
+            if (!IsSolid(x + width, y + height, lvlData)) {
+                if (!IsSolid(x + width, y, lvlData)) {
+                    if (!IsSolid(x, y + height, lvlData)) {
                         return true;
                     } else {
                         System.out.print("Buttom left ");
@@ -35,8 +35,8 @@ public class HelpMethods {
     }
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
-        int maxWidth = lvlData[0].length * Game.TILES_SIZE ;
-        int maxHeight = lvlData.length * Game.TILES_SIZE ;// try
+        int maxWidth = lvlData[0].length * Game.TILES_SIZE;
+        int maxHeight = lvlData.length * Game.TILES_SIZE;// try
         if (x < 0 || x >= maxWidth) {
             return true;
         }
@@ -44,7 +44,7 @@ public class HelpMethods {
         if (y < 0 || y >= maxHeight) {
             return true;
         }
-        
+
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
@@ -54,15 +54,28 @@ public class HelpMethods {
 
     }
 
+    // public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+    // int value = lvlData[yTile][xTile];
+
+    // if (value >= 48 || value < 0 || value != 11) {
+
+    // System.out.print(" value: " + value + "\n");
+    // return true;
+    // }
+
+    // return false;
+    // }
+
     public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+        if (yTile < 0 || yTile >= lvlData.length)
+            return true;
+        if (xTile < 0 || xTile >= lvlData[0].length)
+            return true;
+
         int value = lvlData[yTile][xTile];
 
-        if (value >= 48 || value < 0 || value != 11) {
-            System.out.print("     value: " + value + "\n");
-            return true;
-        }
-
-        return false;
+        // Only tile 11 is walkable
+        return value != 11;
     }
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
@@ -79,16 +92,29 @@ public class HelpMethods {
         }
     }
 
+    // public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float
+    // hitbox, float airSpeed) {
+    // int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
+    // if (airSpeed > 0) {
+    // // Falling - touching floor
+    // int tileYPos = currentTile * Game.TILES_SIZE;
+    // int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
+    // return tileYPos + yOffset - 1;
+    // } else {
+    // // Jumping
+    // return currentTile * Game.TILES_SIZE;
+    // }
+    // }
+
     public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
-        int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
         if (airSpeed > 0) {
-            // Falling - touching floor
-            int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
-            return tileYPos + yOffset - 1;
+            // Falling - place player just above the floor
+            int tileY = (int) ((hitbox.y + hitbox.height + airSpeed) / Game.TILES_SIZE);
+            return tileY * Game.TILES_SIZE - hitbox.height - 0.1f;
         } else {
-            // Jumping
-            return currentTile * Game.TILES_SIZE;
+            // Jumping - place player just below the roof
+            int tileY = (int) ((hitbox.y + airSpeed) / Game.TILES_SIZE);
+            return (tileY + 1) * Game.TILES_SIZE + 0.1f;
         }
     }
 
