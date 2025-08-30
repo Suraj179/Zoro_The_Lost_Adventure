@@ -6,29 +6,29 @@ import main.Game;
 
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
-        // if (!IsSolid(x, y, lvlData))
-        // if (!IsSolid(x + width, y + height, lvlData))
-        // if (!IsSolid(x + width, y, lvlData))
-        // if (!IsSolid(x, y + height, lvlData))
-        // return true;
-
-        if (!IsSolid(x, y, lvlData)) {
-            if (!IsSolid(x + width, y + height, lvlData)) {
-                if (!IsSolid(x + width, y, lvlData)) {
-                    if (!IsSolid(x, y + height, lvlData)) {
+        if (!IsSolid(x, y, lvlData))
+            if (!IsSolid(x + width, y + height, lvlData))
+                if (!IsSolid(x + width, y, lvlData))
+                    if (!IsSolid(x, y + height, lvlData))
                         return true;
-                    } else {
-                        System.out.print("Buttom left ");
-                    }
-                } else {
-                    System.out.print("top right ");
-                }
-            } else {
-                System.out.print("buttom right ");
-            }
-        } else {
-            System.out.print("top left ");
-        }
+
+        // if (!IsSolid(x, y, lvlData)) {
+        //     if (!IsSolid(x + width, y + height, lvlData)) {
+        //         if (!IsSolid(x + width, y, lvlData)) {
+        //             if (!IsSolid(x, y + height, lvlData)) {
+        //                 return true;
+        //             } else {
+        //                 System.out.print("Buttom left ");
+        //             }
+        //         } else {
+        //             System.out.print("top right ");
+        //         }
+        //     } else {
+        //         System.out.print("buttom right ");
+        //     }
+        // } else {
+        //     System.out.print("top left ");
+        // }
 
         return false;
 

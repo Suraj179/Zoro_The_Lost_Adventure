@@ -31,12 +31,16 @@ public class EnemyManager {
         }
     }
     public void draw(Graphics g, int xLvlOffset, int  yLvlOffset){
-        drawCrabs(g, xLvlOffset,  yLvlOffset);
+        drawPirates(g, xLvlOffset,  yLvlOffset);
     }
-    private void drawCrabs(Graphics g, int xLvlOffset, int  yLvlOffset) {
+    private void drawPirates(Graphics g, int xLvlOffset, int  yLvlOffset) {
         for(Pirate c : pirates){
-            g.drawImage(pirateArr[c.getEnemyState()][c.getAniIndex()], (int)c.getHitbox().x - xLvlOffset - PIRATE_DRAWOFFSET_X, (int)c.getHitbox().y - yLvlOffset - PIRATE_DRAWOFFSET_Y, PIRATE_WIDTH, PIRATE_HEIGHT, null );
-            // c.drawHitbox(g, xLvlOffset, yLvlOffset);
+            g.drawImage(pirateArr[c.getEnemyState()][c.getAniIndex()], 
+                    (int)c.getHitbox().x - xLvlOffset - PIRATE_DRAWOFFSET_X + c.flipX(), 
+                    (int)c.getHitbox().y - yLvlOffset - PIRATE_DRAWOFFSET_Y, 
+                    PIRATE_WIDTH * c.flipW(), PIRATE_HEIGHT, null );
+            c.drawHitbox(g, xLvlOffset, yLvlOffset);
+            c.drawAttackBox(g, xLvlOffset, yLvlOffset);
         }
     }
 

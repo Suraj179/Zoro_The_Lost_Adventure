@@ -58,7 +58,6 @@ public class Playing extends State implements Statemethods {
     private void initClasses(){
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-        // player = new Player(200,200, (int)(64*SCALE), (int)(40*SCALE));
         player = new Player(160 * Game.SCALE,330 * Game.SCALE, (int)(64*Game.SCALE), (int)(64*Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
@@ -121,6 +120,10 @@ public class Playing extends State implements Statemethods {
             g.drawImage(bigCloud,  i * BIG_CLOUD_WIDTH - (int) (xLvlOffset * 0.3), (int)(170 * Game.SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT, null);
         for(int i=0; i< smallCloudsPos.length; i++)
             g.drawImage(smallCloud, SMALL_CLOUD_WIDTH * 4 * i - (int) (xLvlOffset * 0.7), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
+    }
+
+    public void resetAll(){
+        //TODO : reset playing, enemy, lvl, etc.....
     }
     @Override
     public void mouseClicked(MouseEvent e) {
