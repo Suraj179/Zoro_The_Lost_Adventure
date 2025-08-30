@@ -18,8 +18,8 @@ public class GameOverOverlay {
         g.fillRect(0,0,Game.GAME_WIDTH, Game.GAME_HEIGHT);
 
         g.setColor(Color.white);
-        g.drawString("Game Over", Game.GAME_HEIGHT/2, 150);
-        g.drawString("Press esc to enter Main Menu", Game.GAME_WIDTH/2, 300);
+        g.drawString("Game Over", Game.GAME_WIDTH/2, Game.GAME_HEIGHT/4);
+        g.drawString("Press esc to enter Main Menu", Game.GAME_WIDTH/2 - 50*(int)Game.SCALE, Game.GAME_HEIGHT/2);
         
     }
 

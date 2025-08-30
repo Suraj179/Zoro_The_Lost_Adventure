@@ -41,11 +41,11 @@ public class Pirate extends Enemy {
 
     public void update(int[][] lvlData, Player player) {
         updateAttackBox();
-        updateMove(lvlData, player);
+        updateBehavior(lvlData, player);
         updateAnimationTick();
     }
 
-    private void updateMove(int[][] lvlData, Player player) {
+    private void updateBehavior(int[][] lvlData, Player player) {
         if (firstUpdate)
             firstUpdateCheck(lvlData);
 
@@ -64,6 +64,17 @@ public class Pirate extends Enemy {
 
                     move(lvlData);
                     break;
+                case ATTACK:
+                    if (aniIndex == 0)
+                        attackChecked = false;
+
+                    if(aniIndex ==2 && !attackChecked)//it ensure that in one Attack loop, enemy hit only once to player
+                        checkPlayerHit(attackBox,player);
+                    break;
+
+                case HIT:
+                    break;
+
             }
         }
     }

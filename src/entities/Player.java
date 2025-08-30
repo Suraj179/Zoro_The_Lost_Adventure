@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import gamestates.Playing;
 import main.Game;
 
 public class Player extends Entity {
@@ -55,8 +56,12 @@ public class Player extends Entity {
     private int flipW = 1;
     private int flipOffset = 47;
 
-    public Player(float x, float y, int width, int height) {
+    private boolean attackChecked = false;
+    private Playing playing;
+
+    public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
+        this.playing= playing;
         System.out.println(50-width);
         loadAnimation();
         initHitbox(x, y, (int) (13 * Game.SCALE), (int) (30 * Game.SCALE));// width should no be greater than
@@ -81,11 +86,26 @@ public class Player extends Entity {
 
 
     public void update() {
-        updateAttackBox();
         updateHealthBar();
+        if (currentHealth <= 0){
+            playing.setGameOver(true);
+            return;
+        }
+        updateAttackBox();
+        
         updatePosition();
+        if(attacking)
+            checkAttack();
         updateAnimationTick();
         setAnimation();
+
+    }
+
+    private void checkAttack() {
+        if(attackChecked || aniIndex !=1)
+            return;
+        attackChecked= true;
+        playing.checkEnemyHit(attackBox);
 
     }
 
@@ -130,6 +150,7 @@ public class Player extends Entity {
             if (aniIndex >= GetSpriteAmount(playerAction)) {
                 aniIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }
@@ -149,6 +170,11 @@ public class Player extends Entity {
 
         if (attacking) {
             playerAction = ATTACK1;
+            if (startAni != ATTACK1){
+                aniIndex=1;// at index 1 of attack1 animation zoro's sword really cut the enemy
+                aniTick = 0;
+                return;
+            }
         }
 
         if (startAni != playerAction) {
@@ -314,5 +340,20 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void resetAll(){
+        resetDirBooleans();
+        inAir = false;
+        attacking= false;
+        moving = false;
+        playerAction = IDLE;
+        currentHealth = maxHealth;
+
+        hitbox.x=x;
+        hitbox.y=y;
+
+        if(!IsEntityOnFloor(hitbox, lvlData))
+            inAir=true;
     }
 }

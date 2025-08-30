@@ -2,6 +2,9 @@ package entities;
 
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.HelpMethods.*;
+
+import java.awt.geom.Rectangle2D;
+
 import static utilz.Constants.Directions.*;
 
 import main.Game;
@@ -21,6 +24,8 @@ public abstract class Enemy extends Entity {
     protected float attackDistance = Game.TILES_SIZE;
     protected int maxHealth;
     protected int currentHealth;
+    protected boolean active=true;
+    protected boolean attackChecked;
 
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
@@ -103,6 +108,19 @@ public abstract class Enemy extends Entity {
         aniIndex = 0;
     }
 
+    public void hurt(int amount){
+        currentHealth-= amount;
+        if (currentHealth <= 0){
+            newState(DEAD);
+        }else newState(HIT);
+    }
+
+    protected void checkPlayerHit(Rectangle2D.Float attackBox, Player player){
+        if(attackBox.intersects(player.hitbox))
+            player.changeHealth(-GetEnemyDmg( enemyType));
+        attackChecked = true;
+    }
+
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
@@ -110,8 +128,10 @@ public abstract class Enemy extends Entity {
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
                 aniIndex = 0;
-                if (enemyState == ATTACK) {
-                    enemyState = IDLE;
+
+                switch (enemyState){
+                    case ATTACK, HIT -> enemyState = IDLE;
+                    case DEAD -> active = false;
                 }
             }
         }
@@ -124,12 +144,26 @@ public abstract class Enemy extends Entity {
             walkDir = LEFT;
     }
 
+    public void resetEnemy(){
+        hitbox.x=x;
+        hitbox.y=y;
+        firstUpdate= true;
+        currentHealth= maxHealth;
+        newState(IDLE);
+        active= true;
+        fallSpeed=0;
+    }
+
     public int getAniIndex() {
         return aniIndex;
     }
 
     public int getEnemyState() {
         return enemyState;
+    }
+
+    public boolean isActive(){
+        return active;
     }
 
 }
