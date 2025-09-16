@@ -8,7 +8,11 @@ import static utilz.Constants.EnemyConstants.*;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
+// import static utilz.HelpMethods.GetCrabs;
+
+import Levels.Level;
 
 public class EnemyManager {
     private Playing playing;
@@ -18,18 +22,25 @@ public class EnemyManager {
     public EnemyManager(Playing playing) {
         this.playing = playing;
         loadEnemyImgs();
-        addEnemies();
+
     }
 
-    private void addEnemies() {
-        pirates = LoadSave.GetCrabs();
+    public void loadEnemies(Level level) {
+        pirates = level.getCrabs();
         System.out.println("Size of Crabs: " + pirates.size());
     }
 
     public void update(int[][] lvlData, Player player) {
+        boolean isAnyActive = false;
+
         for (Pirate p : pirates) {
-            if (p.isActive())
+            if (p.isActive()){
                 p.update(lvlData, player);
+                isAnyActive = true;
+            }
+        }
+        if(!isAnyActive){
+            playing.setLevelCompleted(true);
         }
     }
 
@@ -71,8 +82,8 @@ public class EnemyManager {
         }
     }
 
-    public void resetAllEnemies(){
-        for(Pirate p: pirates){
+    public void resetAllEnemies() {
+        for (Pirate p : pirates) {
             p.resetEnemy();
         }
     }

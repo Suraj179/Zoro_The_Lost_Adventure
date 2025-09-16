@@ -57,11 +57,11 @@ public class Pirate extends Enemy {
                     newState(RUNNING);
                     break;
                 case RUNNING:
-                    if (canSeePlayer(lvlData, player))
+                    if (canSeePlayer(lvlData, player)){
                         turnTowardPlayer(player);
-                    if (isplayerCloseForAttack(player))
-                        newState(ATTACK);
-
+                        if (isplayerCloseForAttack(player))
+                            newState(ATTACK);
+                    }
                     move(lvlData);
                     break;
                 case ATTACK:
