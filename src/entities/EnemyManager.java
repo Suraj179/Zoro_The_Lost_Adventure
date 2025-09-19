@@ -1,7 +1,6 @@
 package entities;
 
 import gamestates.Playing;
-import main.Game;
 import utilz.LoadSave;
 import static utilz.Constants.EnemyConstants.*;
 
@@ -10,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
-// import static utilz.HelpMethods.GetCrabs;
 
 import Levels.Level;
 
@@ -34,12 +32,12 @@ public class EnemyManager {
         boolean isAnyActive = false;
 
         for (Pirate p : pirates) {
-            if (p.isActive()){
+            if (p.isActive()) {
                 p.update(lvlData, player);
                 isAnyActive = true;
             }
         }
-        if(!isAnyActive){
+        if (!isAnyActive) {
             playing.setLevelCompleted(true);
         }
     }
@@ -55,8 +53,8 @@ public class EnemyManager {
                         (int) p.getHitbox().x - xLvlOffset - PIRATE_DRAWOFFSET_X + p.flipX(),
                         (int) p.getHitbox().y - yLvlOffset - PIRATE_DRAWOFFSET_Y,
                         PIRATE_WIDTH * p.flipW(), PIRATE_HEIGHT, null);
-                p.drawHitbox(g, xLvlOffset, yLvlOffset);
-                p.drawAttackBox(g, xLvlOffset, yLvlOffset);
+                // p.drawHitbox(g, xLvlOffset, yLvlOffset);
+                // p.drawAttackBox(g, xLvlOffset, yLvlOffset);
             }
         }
     }
@@ -71,8 +69,7 @@ public class EnemyManager {
     }
 
     private void loadEnemyImgs() {
-        // crabbyArr= new BufferedImage[5][9];
-        pirateArr = new BufferedImage[4][6];
+        pirateArr = new BufferedImage[5][7];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.PIRATE_SPRITE);
         for (int j = 0; j < pirateArr.length; j++) {
             for (int i = 0; i < pirateArr[j].length; i++) {

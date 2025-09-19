@@ -11,9 +11,9 @@ public class UrmButton extends PauseButton {
     private int rowIndex, index;
     private boolean mouseOver, mousePressed;
 
-    public UrmButton(int x, int y, int width, int height, int rowIndex){
+    public UrmButton(int x, int y, int width, int height, int rowIndex) {
         super(x, y, width, height);
-        this.rowIndex= rowIndex;
+        this.rowIndex = rowIndex;
         loadImgs();
 
     }
@@ -21,25 +21,28 @@ public class UrmButton extends PauseButton {
     private void loadImgs() {
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS);
         imgs = new BufferedImage[3];
-        for (int i=0; i< imgs.length; i++){
-            imgs[i] = temp.getSubimage(i * URM_DEFAULT_SIZE, rowIndex * URM_DEFAULT_SIZE,URM_DEFAULT_SIZE, URM_DEFAULT_SIZE);
+        for (int i = 0; i < imgs.length; i++) {
+            imgs[i] = temp.getSubimage(i * URM_DEFAULT_SIZE, rowIndex * URM_DEFAULT_SIZE, URM_DEFAULT_SIZE,
+                    URM_DEFAULT_SIZE);
         }
     }
 
-    public void update(){
-        index =0;
-        if(mouseOver){
+    public void update() {
+        index = 0;
+        if (mouseOver) {
             index = 1;
         }
-        if (mousePressed){
+        if (mousePressed) {
             index = 2;
         }
 
     }
-    public void draw(Graphics g){
+
+    public void draw(Graphics g) {
         g.drawImage(imgs[index], x, y, URM_SIZE, URM_SIZE, null);
     }
-    public void resetBools(){
+
+    public void resetBools() {
         mouseOver = false;
         mousePressed = false;
     }
@@ -59,6 +62,5 @@ public class UrmButton extends PauseButton {
     public void setMousePressed(boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
-
 
 }

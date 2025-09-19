@@ -1,4 +1,5 @@
 package main;
+
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -6,14 +7,14 @@ import javax.swing.JFrame;
 
 public class GameWindow {
     private JFrame jframe;
-    public GameWindow(GamePanel gamePanel){
 
-        jframe=new JFrame();
+    public GameWindow(GamePanel gamePanel) {
 
-        // jframe.setSize(1500,800);
+        jframe = new JFrame();
+        
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(gamePanel);
-        
+
         jframe.setResizable(false);
         jframe.pack();
         jframe.setLocationRelativeTo(null);
@@ -22,16 +23,16 @@ public class GameWindow {
 
             @Override
             public void windowGainedFocus(WindowEvent e) {
-                
+
             }
 
             @Override
             public void windowLostFocus(WindowEvent e) {
-               gamePanel.getGame().windowFocusLost();
-            //    System.out.println("Bye");
+                gamePanel.getGame().windowFocusLost();
+
             }
-            
+
         });
-        
+
     }
 }

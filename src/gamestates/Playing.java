@@ -33,21 +33,12 @@ public class Playing extends State implements Statemethods {
     private int xLvlOffset;
     private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
     private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
-    // private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
-    // private int maxTilesOffsetX = lvlTilesWide - Game.TILES_IN_WIDTH;
     private int maxLvlOffsetX;
 
     private int yLvlOffset;
     private int upBorder = (int) (0.3 * Game.GAME_HEIGHT);
     private int downBorder = (int) (0.7 * Game.GAME_HEIGHT);
-    // private int lvlTilesHight = LoadSave.GetLevelData().length;
-    // private int maxTilesOffsetY = lvlTilesHight - Game.TILES_IN_HEIGHT;
     private int maxLvlOffsetY;
-    
-    // private int lvlTilesHight = LoadSave.GetLevelData().length;
-    // private int maxTilesOffsetY = lvlTilesHight - Game.TILES_IN_HEIGHT;
-    // private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
-
 
     private BufferedImage backgroundImg, bigCloud, smallCloud;
     private int[] smallCloudsPos;
@@ -66,13 +57,13 @@ public class Playing extends State implements Statemethods {
         smallCloudsPos = new int[8];
         for (int i = 0; i < smallCloudsPos.length; i++)
             smallCloudsPos[i] = (int) ((90 * Game.SCALE) + rnd.nextInt((int) (100 * Game.SCALE)));
-        
+
         calcLvlOffset();
         loadStartLevel();
-        
+
     }
 
-    public void loadNextLevel(){
+    public void loadNextLevel() {
         resetAll();
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -83,8 +74,8 @@ public class Playing extends State implements Statemethods {
     }
 
     private void calcLvlOffset() {
-       maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffsetX();
-       maxLvlOffsetY = levelManager.getCurrentLevel().getLvlOffsetY();
+        maxLvlOffsetX = levelManager.getCurrentLevel().getLvlOffsetX();
+        maxLvlOffsetY = levelManager.getCurrentLevel().getLvlOffsetY();
     }
 
     private void initClasses() {
@@ -99,8 +90,6 @@ public class Playing extends State implements Statemethods {
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
-
-    
 
     @Override
     public void update() {
@@ -239,11 +228,11 @@ public class Playing extends State implements Statemethods {
             }
     }
 
-    public void setLevelCompleted(boolean levelCompleted){
+    public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
     }
 
-    public void setMaxLvlOffset(int lvlOffsetX, int lvlOffsetY ){
+    public void setMaxLvlOffset(int lvlOffsetX, int lvlOffsetY) {
         this.maxLvlOffsetX = lvlOffsetX;
         this.maxLvlOffsetY = lvlOffsetY;
 
@@ -261,7 +250,7 @@ public class Playing extends State implements Statemethods {
         return player;
     }
 
-    public EnemyManager getEnemyManager(){
+    public EnemyManager getEnemyManager() {
         return enemyManager;
     }
 

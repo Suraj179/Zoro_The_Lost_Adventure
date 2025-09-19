@@ -17,7 +17,7 @@ public class Level {
 
     private int lvlTilesWide;
     private int maxTilesOffsetX;
-    private int maxLvlOffsetX; 
+    private int maxLvlOffsetX;
 
     private int lvlTilesHight;
     private int maxTilesOffsetY;
@@ -25,13 +25,8 @@ public class Level {
 
     private Point playerSpawn;
 
-    // private int lvlTilesHight = LoadSave.GetLevelData().length;
-    // private int maxTilesOffsetY = lvlTilesHight - Game.TILES_IN_HEIGHT;
-    // private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
-
-
-    public Level(BufferedImage img){
-        this.img=img;
+    public Level(BufferedImage img) {
+        this.img = img;
         createLevelData();
         createEnemies();
         calcLvlOffsets();
@@ -43,12 +38,12 @@ public class Level {
     }
 
     private void calcLvlOffsets() {
-       lvlTilesWide = img.getWidth();
-       maxTilesOffsetX = lvlTilesWide - Game.TILES_IN_WIDTH;
-       maxLvlOffsetX = maxTilesOffsetX *  Game.TILES_SIZE;
-       lvlTilesHight = img.getHeight();
-       maxTilesOffsetY = lvlTilesHight - Game.TILES_IN_HEIGHT;
-       maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
+        lvlTilesWide = img.getWidth();
+        maxTilesOffsetX = lvlTilesWide - Game.TILES_IN_WIDTH;
+        maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
+        lvlTilesHight = img.getHeight();
+        maxTilesOffsetY = lvlTilesHight - Game.TILES_IN_HEIGHT;
+        maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
     }
 
     private void createEnemies() {
@@ -59,27 +54,27 @@ public class Level {
         lvlData = GetLevelData(img);
     }
 
-    public int getSpriteIndex(int x, int y){
+    public int getSpriteIndex(int x, int y) {
         return lvlData[y][x];
     }
 
-    public int[][] getLevelData(){
+    public int[][] getLevelData() {
         return lvlData;
     }
 
-    public int getLvlOffsetX(){
+    public int getLvlOffsetX() {
         return maxLvlOffsetX;
     }
 
-    public int getLvlOffsetY(){
+    public int getLvlOffsetY() {
         return maxLvlOffsetY;
     }
 
-    public ArrayList<Pirate> getCrabs(){
+    public ArrayList<Pirate> getCrabs() {
         return pirates;
     }
 
-    public Point getPlayerSpawn(){
+    public Point getPlayerSpawn() {
         return playerSpawn;
     }
 }
