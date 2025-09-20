@@ -19,6 +19,7 @@ import utilz.LoadSave;
 import java.util.Random;
 
 import static utilz.Constants.Environment.*;
+import static utilz.Constants.PlayerConstants.*;
 
 public class Playing extends State implements Statemethods {
 
@@ -46,6 +47,11 @@ public class Playing extends State implements Statemethods {
 
     private boolean gameOver;
     private boolean lvlCompleted = false;
+
+    // the become true when A or D is pressed. J and Attack 3 works only when left
+    // and rightpressed is true
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
 
     public Playing(Game game) {
         super(game);
@@ -184,7 +190,7 @@ public class Playing extends State implements Statemethods {
     public void mouseClicked(MouseEvent e) {
         if (!gameOver)
             if (e.getButton() == MouseEvent.BUTTON1)
-                player.setAttack(true);
+                player.setAttacking(true);
 
     }
 
@@ -256,25 +262,45 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // System.out.println("leftPressed: " + leftPressed + "   Right Pressed: " + rightPressed);
         if (gameOver)
             gameOverOverlay.keyPressed(e);
         else
             switch (e.getKeyCode()) {
 
                 case KeyEvent.VK_LEFT:
+                    leftPressed = true;
                     player.setLeft(true);
                     break;
                 case KeyEvent.VK_A:
+                    leftPressed = true;
                     player.setLeft(true);
                     break;
                 case KeyEvent.VK_RIGHT:
+                    rightPressed = true;
                     player.setRight(true);
                     break;
                 case KeyEvent.VK_D:
+                    rightPressed = true;
                     player.setRight(true);
                     break;
                 case KeyEvent.VK_F:
-                    player.setAttack(true);
+                    player.setAttacking(true);
+                    player.setAttackType(ATTACK1);
+                    break;
+                case KeyEvent.VK_J:
+                    if ((leftPressed && !rightPressed) || (rightPressed && !leftPressed)) {
+                        player.setAttacking(true);
+                        player.setAttackType(ATTACK3);
+                    }
+                    break;
+                case KeyEvent.VK_R:
+                    player.setAttacking(true);
+                    player.setAttackType(ATTACK2);
+                    break;
+                case KeyEvent.VK_E:
+                    player.setAttacking(true);
+                    player.setAttackType(ATTACK4);
                     break;
                 case KeyEvent.VK_SPACE:
                     player.setJump(true);
@@ -287,20 +313,27 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void keyReleased(KeyEvent e) {
+
         if (!gameOver)
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+                    leftPressed = false;
                     player.setLeft(false);
                     break;
                 case KeyEvent.VK_A:
+                    leftPressed = false;
                     player.setLeft(false);
                     break;
                 case KeyEvent.VK_RIGHT:
+                    rightPressed = false;
                     player.setRight(false);
                     break;
                 case KeyEvent.VK_D:
+                    rightPressed = false;
                     player.setRight(false);
                     break;
+                case KeyEvent.VK_J:
+                    player.setAttacking(false);
                 case KeyEvent.VK_SPACE:
                     player.setJump(false);
                     break;

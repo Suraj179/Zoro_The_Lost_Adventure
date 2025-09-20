@@ -1,5 +1,6 @@
 package entities;
 
+import utilz.Constants.PlayerConstants;
 // import utilz.Constants;
 import utilz.LoadSave;
 
@@ -21,6 +22,7 @@ public class Player extends Entity {
     private BufferedImage[][] animations;
     private boolean moving = false, attacking = false;
     private boolean left, right, jump;
+    private int attackType;
 
     private int[][] lvlData;
     private float xDrawOffset = 10 * Game.SCALE;// in video there was 21
@@ -56,7 +58,7 @@ public class Player extends Entity {
         this.state = IDLE;
         this.maxHealth = 100;
         this.currentHealth = maxHealth;
-        this.walkSpeed = 1.0f * Game.SCALE;
+        this.walkSpeed = getWalkSpeed(state);
         loadAnimation();
         initHitbox(PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT);// width should no be greater than TILES_DEFAULT_SIZE
 
@@ -72,14 +74,15 @@ public class Player extends Entity {
 
     private void initAttackBox() {
         attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
-
+         
     }
 
     private void updateAttackBox() {
         if (right) {
-            attackBox.x = hitbox.x + hitbox.width + (10 * Game.SCALE);
+            attackBox.x = hitbox.x + (int) (hitbox.width)+(int)(10*Game.SCALE);
         } else if (left) {
-            attackBox.x = hitbox.x - hitbox.width - (20 * Game.SCALE);
+            attackBox.x = hitbox.x - attackBox.width - (int)(10*Game.SCALE) ;
+
         }
         attackBox.y = hitbox.y + (Game.SCALE * 10);
     }
@@ -97,15 +100,44 @@ public class Player extends Entity {
             checkAttack();
         updateAnimationTick();
         setAnimation();
+        // System.out.println("State: " + this.state);
 
     }
 
-    private void checkAttack() {
-        if (attackChecked || aniIndex != 1)
-            return;
-        attackChecked = true;
-        playing.checkEnemyHit(attackBox);
+    // private void checkAttack() {
+    // if (attackChecked || aniIndex != 1)
+    // return;
+    // attackChecked = true;
+    // playing.checkEnemyHit(attackBox);
 
+    // }
+
+    private void checkAttack() {
+        int[] damageFrames = PlayerConstants.getDamageFrames(state);
+
+        // no damage frames for this state → do nothing
+        if (damageFrames.length == 0)
+            return;
+
+        for (int frame : damageFrames) {
+            if (aniIndex == frame && !attackChecked) {
+                playing.checkEnemyHit(attackBox);
+                attackChecked = true; // mark that this frame has dealt damage
+                return;
+            }
+        }
+
+        // reset attackChecked when leaving damage frames
+        boolean inDamageFrame = false;
+        for (int frame : damageFrames) {
+            if (aniIndex == frame) {
+                inDamageFrame = true;
+                break;
+            }
+        }
+        if (!inDamageFrame) {
+            attackChecked = false;
+        }
     }
 
     private void updateHealthBar() {
@@ -114,12 +146,13 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g, int xlvlOffset, int ylvlOffset) {
+        // System.out.println("state: " + state + " aniIndex: " + aniIndex);
         g.drawImage(animations[state][aniIndex],
                 (int) (hitbox.x - xDrawOffset) - xlvlOffset + flipX,
                 (int) (hitbox.y - yDrawOffset) - ylvlOffset,
                 width * flipW, height, null);
-        // drawHitbox(g, xlvlOffset, ylvlOffset);
-        // drawAttackBox(g, xlvlOffset, ylvlOffset);
+        drawHitbox(g, xlvlOffset, ylvlOffset);
+        drawAttackBox(g, xlvlOffset, ylvlOffset);
         drawUI(g);
 
     }
@@ -163,12 +196,20 @@ public class Player extends Entity {
         }
 
         if (attacking) {
-            state = ATTACK1;
-            if (startAni != ATTACK1) {
+            state = getAttackType();
+            // System.out.println("aniIndex: "+aniIndex);
+            if (state == ATTACK1 && startAni != ATTACK1) {
                 aniIndex = 1;// at index 1 of attack1 animation zoro's sword really cut the enemy
                 aniTick = 0;
                 return;
             }
+
+            if (startAni != state) {
+                aniIndex = 0;// at index 1 of attack1 animation zoro's sword really cut the enemy
+                aniTick = 0;
+                return;
+            }
+
         }
 
         if (startAni != state) {
@@ -182,17 +223,19 @@ public class Player extends Entity {
     }
 
     private void updatePosition() {
-
+        walkSpeed = getWalkSpeed(state);
         moving = false;
         if (jump) {
             jump();
         }
+        if (!inAir)
+            if (!IsEntityOnFloor(hitbox, lvlData))
+                inAir = true;
 
-        if (!inAir) {
-            if ((!left && !right) || (right && left)) {
+        if (!inAir)
+            if ((!left && !right) || (right && left))
                 return;
-            }
-        }
+
         float xSpeed = 0;
 
         if (left) {
@@ -205,10 +248,7 @@ public class Player extends Entity {
             flipX = 0;
             flipW = 1;
         }
-        if (!inAir)
-            if (!IsEntityOnFloor(hitbox, lvlData)) {
-                inAir = true;
-            }
+
         if (inAir) {
             if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
                 hitbox.y += airSpeed;
@@ -292,7 +332,16 @@ public class Player extends Entity {
         right = false;
     }
 
-    public void setAttack(boolean attacking) {
+    public float getWalkSpeed(int state) {
+        if (attacking && attackType == ATTACK3) {
+            walkSpeed = 2.0f * Game.SCALE;
+        } else {
+            walkSpeed = 1.0f * Game.SCALE;
+        }
+        return walkSpeed;
+    }
+
+    public void setAttacking(boolean attacking) {
         this.attacking = attacking;
     }
 
@@ -314,6 +363,14 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void setAttackType(int attacktype) {
+        this.attackType = attacktype;
+    }
+
+    public int getAttackType() {
+        return attackType;
     }
 
     public void resetAll() {
