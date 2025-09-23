@@ -56,7 +56,7 @@ public class Player extends Entity {
         super(x, y, width, height);
         this.playing = playing;
         this.state = IDLE;
-        this.maxHealth = 100;
+        this.maxHealth = 60;
         this.currentHealth = maxHealth;
         this.walkSpeed = getWalkSpeed(state);
         loadAnimation();
@@ -96,6 +96,8 @@ public class Player extends Entity {
         updateAttackBox();
 
         updatePosition();
+        if(moving)
+            checkPotionTouched();
         if (attacking)
             checkAttack();
         updateAnimationTick();
@@ -104,13 +106,9 @@ public class Player extends Entity {
 
     }
 
-    // private void checkAttack() {
-    // if (attackChecked || aniIndex != 1)
-    // return;
-    // attackChecked = true;
-    // playing.checkEnemyHit(attackBox);
-
-    // }
+    private void checkPotionTouched() {
+        playing.checkPotionTouched(hitbox);
+    }
 
     private void checkAttack() {
         int[] damageFrames = PlayerConstants.getDamageFrames(state);
@@ -122,6 +120,7 @@ public class Player extends Entity {
         for (int frame : damageFrames) {
             if (aniIndex == frame && !attackChecked) {
                 playing.checkEnemyHit(attackBox);
+                playing.checkObjectHit(attackBox);
                 attackChecked = true; // mark that this frame has dealt damage
                 return;
             }
@@ -302,7 +301,10 @@ public class Player extends Entity {
         } else if (currentHealth >= maxHealth) {
             currentHealth = maxHealth;
         }
+    }
 
+    public void changePower(int val){
+        System.out.println("Added Power!");
     }
 
     private void loadAnimation() {

@@ -3,6 +3,7 @@ package objects;
 import static utilz.Constants.ObjectConstant.*;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -22,9 +23,43 @@ public class ObjectManager {
         loadImgs();
     }
 
-    public void loadObjects(Level newLevel){
+    public void checkObjectTouched(Rectangle2D.Float hitbox) {
+        for (Potion p : potions)
+            if (p.isActive()) {
+                if (hitbox.intersects(p.getHitbox())) {
+                    p.setActive(false);
+                    applyEffectToPlayer(p);
+                }
+            }
+    }
+
+    public void applyEffectToPlayer(Potion p) {
+        if (p.getObjType() == RED_POTION)
+            playing.getPlayer().changeHealth(RED_POTION_VALUE);
+        else if (p.getObjType() == BLUE_POTION)
+            playing.getPlayer().changePower(BLUE_POTION_VALUE);
+    }
+
+    public void checkObjectHit(Rectangle2D.Float attackbox) {// check if object got hit
+        for (GameContainer gc : containers)
+            if (gc.isActive()) {
+                if (gc.getHitbox().intersects(attackbox)) {
+                    gc.setAnimation(true);
+                    int type = 0; // default container type is box
+                    if (gc.getObjType() == BARREL)
+                        type = 1;
+                    potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2),
+                            (int) (gc.getHitbox().y - gc.getHitbox().height *1/3),
+                            type));
+                    return;
+
+                }
+            }
+    }
+
+    public void loadObjects(Level newLevel) {
         potions = newLevel.gePotions();
-        containers=newLevel.getContainers();
+        containers = newLevel.getContainers();
     }
 
     private void loadImgs() {
@@ -99,5 +134,12 @@ public class ObjectManager {
                         null);
 
             }
+    }
+
+    public void resetAllObjects(){
+        for (Potion p : potions)
+            p.reset();
+        for(GameContainer gc: containers)
+            gc.reset();
     }
 }
