@@ -6,9 +6,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.ObjectConstant.*;
 
 import entities.Pirate;
 import main.Game;
+import objects.GameContainer;
+import objects.Potion;
 
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
@@ -36,7 +39,7 @@ public class HelpMethods {
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
-        int value = lvlData[(int) yIndex][(int) xIndex];
+        // int value = lvlData[(int) yIndex][(int) xIndex];
 
         return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
 
@@ -68,18 +71,19 @@ public class HelpMethods {
         }
     }
 
-    // public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
-    //     int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
-    //     if (airSpeed > 0) {
-    //         // Falling - touching floor
-    //         int tileYPos = currentTile * Game.TILES_SIZE;
-    //         int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
-    //         return tileYPos + yOffset - 1;
-    //     } else {
-    //         // Jumping
+    // public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float
+    // hitbox, float airSpeed) {
+    // int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
+    // if (airSpeed > 0) {
+    // // Falling - touching floor
+    // int tileYPos = currentTile * Game.TILES_SIZE;
+    // int yOffset = (int) (Game.TILES_SIZE - hitbox.height);
+    // return tileYPos + yOffset - 1;
+    // } else {
+    // // Jumping
 
-    //         return currentTile * Game.TILES_SIZE;
-    //     }
+    // return currentTile * Game.TILES_SIZE;
+    // }
     // }
 
     public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
@@ -176,4 +180,29 @@ public class HelpMethods {
         return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
     }
 
+    public static ArrayList<Potion> GetPotions(BufferedImage img) {
+        ArrayList<Potion> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == RED_POTION || value == BLUE_POTION)
+                    list.add(new Potion(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<GameContainer> GetContainer(BufferedImage img) {
+        ArrayList<GameContainer> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == BARREL || value == BOX)
+                    list.add(new GameContainer(i * Game.TILES_SIZE, j * Game.TILES_SIZE, value));
+            }
+        }
+        return list;
+    }
 }

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 import entities.Pirate;
 import main.Game;
+import objects.GameContainer;
+import objects.Potion;
+import utilz.HelpMethods;
+
 import static utilz.HelpMethods.GetLevelData;
 import static utilz.HelpMethods.GetPlayerSpawn;
 import static utilz.HelpMethods.GetCrabs;
@@ -14,6 +18,8 @@ public class Level {
     private BufferedImage img;
     private int[][] lvlData;
     private ArrayList<Pirate> pirates;
+    private ArrayList<Potion>potions;
+    private ArrayList<GameContainer> containers;
 
     private int lvlTilesWide;
     private int maxTilesOffsetX;
@@ -29,8 +35,19 @@ public class Level {
         this.img = img;
         createLevelData();
         createEnemies();
+        createPotions();
+        createContainers();
+
         calcLvlOffsets();
         calcPlayerSpawn();
+    }
+
+    private void createContainers() {
+       containers = HelpMethods.GetContainer(img);
+    }
+
+    private void createPotions() {
+        potions = HelpMethods.GetPotions(img);
     }
 
     private void calcPlayerSpawn() {
@@ -76,5 +93,13 @@ public class Level {
 
     public Point getPlayerSpawn() {
         return playerSpawn;
+    }
+
+    public ArrayList<Potion> gePotions(){
+        return potions;
+    }
+
+    public ArrayList<GameContainer> getContainers(){
+        return containers;
     }
 }
