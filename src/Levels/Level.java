@@ -8,6 +8,7 @@ import entities.Pirate;
 import main.Game;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 import utilz.HelpMethods;
 
 import static utilz.HelpMethods.GetLevelData;
@@ -20,6 +21,7 @@ public class Level {
     private ArrayList<Pirate> pirates;
     private ArrayList<Potion>potions;
     private ArrayList<GameContainer> containers;
+    private ArrayList<Spike> spikes;
 
     private int lvlTilesWide;
     private int maxTilesOffsetX;
@@ -37,9 +39,14 @@ public class Level {
         createEnemies();
         createPotions();
         createContainers();
+        createSpikes();
 
         calcLvlOffsets();
         calcPlayerSpawn();
+    }
+
+    private void createSpikes() {
+        spikes = HelpMethods.GetSpikes(img);
     }
 
     private void createContainers() {
@@ -95,11 +102,15 @@ public class Level {
         return playerSpawn;
     }
 
-    public ArrayList<Potion> gePotions(){
+    public ArrayList<Potion> getPotions(){
         return potions;
     }
 
     public ArrayList<GameContainer> getContainers(){
         return containers;
+    }
+
+    public ArrayList<Spike> getSpikes(){
+        return spikes;
     }
 }

@@ -98,12 +98,17 @@ public class Player extends Entity {
         updatePosition();
         if(moving)
             checkPotionTouched();
+            checkSpikesTouched();
         if (attacking)
             checkAttack();
         updateAnimationTick();
         setAnimation();
         // System.out.println("State: " + this.state);
 
+    }
+
+    private void checkSpikesTouched() {
+        playing.checkSpikesTouched(this);    
     }
 
     private void checkPotionTouched() {
@@ -303,6 +308,10 @@ public class Player extends Entity {
         }
     }
 
+    public void kill() {
+        currentHealth=0;
+    }
+
     public void changePower(int val){
         System.out.println("Added Power!");
     }
@@ -389,4 +398,6 @@ public class Player extends Entity {
         if (!IsEntityOnFloor(hitbox, lvlData))
             inAir = true;
     }
+
+    
 }
