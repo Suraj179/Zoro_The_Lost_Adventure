@@ -52,6 +52,8 @@ public class Player extends Entity {
     private boolean attackChecked = false;
     private Playing playing;
 
+    private int tileY = 0;// need for cannon to check line of site
+
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -74,14 +76,14 @@ public class Player extends Entity {
 
     private void initAttackBox() {
         attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
-         
+
     }
 
     private void updateAttackBox() {
         if (right) {
-            attackBox.x = hitbox.x + (int) (hitbox.width)+(int)(10*Game.SCALE);
+            attackBox.x = hitbox.x + (int) (hitbox.width) + (int) (10 * Game.SCALE);
         } else if (left) {
-            attackBox.x = hitbox.x - attackBox.width - (int)(10*Game.SCALE) ;
+            attackBox.x = hitbox.x - attackBox.width - (int) (10 * Game.SCALE);
 
         }
         attackBox.y = hitbox.y + (Game.SCALE * 10);
@@ -96,9 +98,11 @@ public class Player extends Entity {
         updateAttackBox();
 
         updatePosition();
-        if(moving)
+        if (moving){
             checkPotionTouched();
             checkSpikesTouched();
+            tileY = (int) (hitbox.y / Game.TILES_SIZE);
+        }
         if (attacking)
             checkAttack();
         updateAnimationTick();
@@ -108,7 +112,7 @@ public class Player extends Entity {
     }
 
     private void checkSpikesTouched() {
-        playing.checkSpikesTouched(this);    
+        playing.checkSpikesTouched(this);
     }
 
     private void checkPotionTouched() {
@@ -309,10 +313,10 @@ public class Player extends Entity {
     }
 
     public void kill() {
-        currentHealth=0;
+        currentHealth = 0;
     }
 
-    public void changePower(int val){
+    public void changePower(int val) {
         System.out.println("Added Power!");
     }
 
@@ -399,5 +403,8 @@ public class Player extends Entity {
             inAir = true;
     }
 
-    
+    public int getTileY() {
+        return tileY;
+    }
+
 }
