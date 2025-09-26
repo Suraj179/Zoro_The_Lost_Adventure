@@ -58,7 +58,7 @@ public class Player extends Entity {
         super(x, y, width, height);
         this.playing = playing;
         this.state = IDLE;
-        this.maxHealth = 60;
+        this.maxHealth = 100;
         this.currentHealth = maxHealth;
         this.walkSpeed = getWalkSpeed(state);
         loadAnimation();
@@ -130,6 +130,7 @@ public class Player extends Entity {
             if (aniIndex == frame && !attackChecked) {
                 playing.checkEnemyHit(attackBox);
                 playing.checkObjectHit(attackBox);
+                playing.checkCannonBallHit(attackBox);
                 attackChecked = true; // mark that this frame has dealt damage
                 return;
             }
@@ -358,6 +359,10 @@ public class Player extends Entity {
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+    }
+
+    public boolean isAttacking(){
+        return attacking;
     }
 
     public boolean isLeft() {

@@ -97,4 +97,8 @@ public class GameObject {
         return aniIndex;
     }
 
+    public int getAniTick(){
+        return aniTick;
+    }
+
 }

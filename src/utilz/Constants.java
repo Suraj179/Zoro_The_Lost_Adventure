@@ -6,6 +6,16 @@ public class Constants {
     public static final float GRAVITY = 0.04f * Game.SCALE;
     public static final int ANI_SPEED = 25;
 
+    public static class Projectiles {
+        public static int CANNON_BALL_DEFAULT_WIDTH = 15;
+        public static int CANNON_BALL_DEFAULT_HIGHT = 15;
+
+        public static int CANNON_BALL_WIDTH = (int) (CANNON_BALL_DEFAULT_WIDTH * Game.SCALE);
+        public static int CANNON_BALL_HIGHT = (int) (CANNON_BALL_DEFAULT_HIGHT * Game.SCALE);
+        public static final float SPEED=0.75f*Game.SCALE;
+
+    }
+
     public static class ObjectConstant {
         public static final int RED_POTION = 0;
         public static final int BLUE_POTION = 1;

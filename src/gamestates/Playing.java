@@ -13,6 +13,7 @@ import entities.EnemyManager;
 import entities.Player;
 import main.Game;
 import objects.ObjectManager;
+import objects.Projectile;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
@@ -29,6 +30,7 @@ public class Playing extends State implements Statemethods {
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
+    private Projectile projectiles;
     private PauseOverlay pauseOverlay;
     private GameOverOverlay gameOverOverlay;
     private LevelCompletedOverlay levelCompletedOverlay;
@@ -190,8 +192,12 @@ public class Playing extends State implements Statemethods {
         this.gameOver = gameOver;
     }
 
-      public void checkObjectHit(Float attackBox) {
+    public void checkObjectHit(Float attackBox) {
         objectManager.checkObjectHit(attackBox);
+    }
+    
+    public void checkCannonBallHit(Float attackBox) {
+        objectManager.checkCannonBallHit(attackBox);
     }
 
     public void checkEnemyHit(Float attackBox) {
@@ -366,6 +372,8 @@ public class Playing extends State implements Statemethods {
                     break;
             }
     }
+
+    
 
   
 
