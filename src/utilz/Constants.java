@@ -240,7 +240,7 @@ public class Constants {
         public static final int QUICK_NAP = 9;
         public static final int JUMP = 10;
         public static final int SHEATHING = 11;
-        public static final int HIT = 12;
+        public static final int HURT = 12;
         public static final int ATTACK4 = 13;
         public static final int BLOCK = 14;
 
@@ -283,13 +283,13 @@ public class Constants {
         public static int[] getDamageFrames(int action) {
             switch (action) {
                 case ATTACK1:
-                    return new int[] { 1 }; // only frame 1
+                    return new int[] { 3, 4, 5, 6, 7}; 
                 case ATTACK2:
-                    return new int[] { 1 };
+                    return new int[] { 5, 6 };
                 case ATTACK3:
-                    return new int[] { 3, 4, 5, 6, 7, 8, 9, 10 }; // frames 4–6
+                    return new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }; 
                 case ATTACK4:
-                    return new int[] { 1, 2, 3 };
+                    return new int[] { 1, 2, 3, 4, 5 };
                 default:
                     return new int[] {}; // no damage
             }
@@ -322,8 +322,8 @@ public class Constants {
                     return 6;
                 case SHEATHING:
                     return 6;
-                case HIT:
-                    return 5;
+                case HURT:
+                    return 6;
                 case ATTACK4:
                     return 6;
                 case BLOCK:

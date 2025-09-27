@@ -1,7 +1,6 @@
 package objects;
 
 import main.Game;
-import static utilz.Constants.ObjectConstant.*;
 
 public class Cannon extends GameObject {
 

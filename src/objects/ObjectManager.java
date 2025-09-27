@@ -12,7 +12,6 @@ import main.Game;
 import utilz.LoadSave;
 
 import static utilz.Constants.ObjectConstant.*;
-import static utilz.Constants.PlayerConstants.ATTACK1;
 import static utilz.Constants.Projectiles.*;
 import static utilz.HelpMethods.*;
 

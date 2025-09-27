@@ -13,7 +13,6 @@ import entities.EnemyManager;
 import entities.Player;
 import main.Game;
 import objects.ObjectManager;
-import objects.Projectile;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
@@ -30,7 +29,7 @@ public class Playing extends State implements Statemethods {
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
-    private Projectile projectiles;
+    // private Projectile projectiles;
     private PauseOverlay pauseOverlay;
     private GameOverOverlay gameOverOverlay;
     private LevelCompletedOverlay levelCompletedOverlay;
@@ -52,6 +51,7 @@ public class Playing extends State implements Statemethods {
 
     private boolean gameOver;
     private boolean lvlCompleted = false;
+    private boolean playerDying=false;
 
     // the become true when A or D is pressed. J and Attack 3 works only when left
     // and rightpressed is true
@@ -110,7 +110,13 @@ public class Playing extends State implements Statemethods {
             pauseOverlay.update();
         } else if (lvlCompleted) {
             levelCompletedOverlay.update();
-        } else if (!gameOver) {
+        } 
+        else if (gameOver){
+            gameOverOverlay.update();
+        }
+        else if (playerDying){//gameOver will be true iff playerDying is true
+            player.update();
+        }else {
             levelManager.update();
             objectManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             player.update();
@@ -183,6 +189,7 @@ public class Playing extends State implements Statemethods {
         gameOver = false;
         paused = false;
         lvlCompleted = false;
+        playerDying=false;
         player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
@@ -228,7 +235,8 @@ public class Playing extends State implements Statemethods {
             } else if (lvlCompleted) {
                 levelCompletedOverlay.mousePressed(e);
             }
-        }
+        }else
+            gameOverOverlay.mousePressed(e);
     }
 
     @Override
@@ -239,7 +247,8 @@ public class Playing extends State implements Statemethods {
             } else if (lvlCompleted) {
                 levelCompletedOverlay.mouseReleased(e);
             }
-        }
+        }else
+            gameOverOverlay.mouseReleased(e);
     }
 
     @Override
@@ -249,7 +258,8 @@ public class Playing extends State implements Statemethods {
                 pauseOverlay.mouseMoved(e);
             } else if (lvlCompleted) {
                 levelCompletedOverlay.mouseMoved(e);
-            }
+            }else
+                gameOverOverlay.mouseMoved(e);
         }
     }
 
@@ -371,6 +381,10 @@ public class Playing extends State implements Statemethods {
                     player.setJump(false);
                     break;
             }
+    }
+
+    public void setPlayerDying(boolean playerDying) {
+        this.playerDying= playerDying;
     }
 
     

@@ -47,7 +47,7 @@ public class Player extends Entity {
 
     private int flipX = 0;
     private int flipW = 1;
-    private int flipOffset = 47;
+    private int flipOffset = (int)(xDrawOffset*2*Game.SCALE);
 
     private boolean attackChecked = false;
     private Playing playing;
@@ -92,13 +92,22 @@ public class Player extends Entity {
     public void update() {
         updateHealthBar();
         if (currentHealth <= 0) {
-            playing.setGameOver(true);
+            if(state != HURT){
+                state = HURT;
+                aniTick=0;
+                aniIndex=0;
+                playing.setPlayerDying(true);
+            }else if(aniIndex==GetSpriteAmount(HURT)-1 && aniTick>= ANI_SPEED-1){//if Hurt Animation is Over then set GameOver is true
+                playing.setGameOver(true);
+            }else{//we are running HURT Animation
+                updateAnimationTick();
+            }
             return;
         }
         updateAttackBox();
 
         updatePosition();
-        if (moving){
+        if (moving) {
             checkPotionTouched();
             checkSpikesTouched();
             tileY = (int) (hitbox.y / Game.TILES_SIZE);
@@ -160,8 +169,9 @@ public class Player extends Entity {
                 (int) (hitbox.x - xDrawOffset) - xlvlOffset + flipX,
                 (int) (hitbox.y - yDrawOffset) - ylvlOffset,
                 width * flipW, height, null);
-        // drawHitbox(g, xlvlOffset, ylvlOffset);
-        // drawAttackBox(g, xlvlOffset, ylvlOffset);
+        drawHitbox(g, xlvlOffset, ylvlOffset);
+        
+        drawAttackBox(g, xlvlOffset, ylvlOffset);
         drawUI(g);
 
     }
@@ -361,7 +371,7 @@ public class Player extends Entity {
         this.attacking = attacking;
     }
 
-    public boolean isAttacking(){
+    public boolean isAttacking() {
         return attacking;
     }
 
