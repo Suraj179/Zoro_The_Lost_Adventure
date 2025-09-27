@@ -169,9 +169,8 @@ public class Player extends Entity {
                 (int) (hitbox.x - xDrawOffset) - xlvlOffset + flipX,
                 (int) (hitbox.y - yDrawOffset) - ylvlOffset,
                 width * flipW, height, null);
-        drawHitbox(g, xlvlOffset, ylvlOffset);
-        
-        drawAttackBox(g, xlvlOffset, ylvlOffset);
+        // drawHitbox(g, xlvlOffset, ylvlOffset);
+        // drawAttackBox(g, xlvlOffset, ylvlOffset);
         drawUI(g);
 
     }

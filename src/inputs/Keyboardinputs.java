@@ -36,8 +36,13 @@ public class Keyboardinputs implements KeyListener {
         switch (Gamestate.state) {
             case MENU:
                 gamePanel.getGame().getMenu().keyPressed(e);
+                break;
             case PLAYING:
                 gamePanel.getGame().getPlaying().keyPressed(e);
+                break;
+            case OPTIONS:
+                gamePanel.getGame().getPlaying().keyPressed(e);
+                break;
             default:
                 break;
         }

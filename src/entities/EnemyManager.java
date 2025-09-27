@@ -53,8 +53,8 @@ public class EnemyManager {
                         (int) p.getHitbox().x - xLvlOffset - PIRATE_DRAWOFFSET_X + p.flipX(),
                         (int) p.getHitbox().y - yLvlOffset - PIRATE_DRAWOFFSET_Y,
                         PIRATE_WIDTH * p.flipW(), PIRATE_HEIGHT, null);
-                p.drawHitbox(g, xLvlOffset, yLvlOffset);
-                p.drawAttackBox(g, xLvlOffset, yLvlOffset);
+                // p.drawHitbox(g, xLvlOffset, yLvlOffset);
+                // p.drawAttackBox(g, xLvlOffset, yLvlOffset);
             }
         }
     }
