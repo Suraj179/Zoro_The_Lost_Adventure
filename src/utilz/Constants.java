@@ -270,7 +270,7 @@ public class Constants {
             else if (action == 11)
                 return "SHEATHING";
             else if (action == 12)
-                return "HIT"; // get hit and fall
+                return "HURT"; // get hit and fall
             else if (action == 13)
                 return "ATTACK4";// two sword style
             else if (action == 14)
