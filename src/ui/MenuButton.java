@@ -79,4 +79,7 @@ public class MenuButton {
         mouseOver = false;
         mousePressed = false;// in video it was set true
     }
+    public Gamestate getState(){
+        return state;
+    }
 }

@@ -15,6 +15,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
 import gamestates.Playing;
 import main.Game;
 
@@ -97,8 +98,11 @@ public class Player extends Entity {
                 aniTick=0;
                 aniIndex=0;
                 playing.setPlayerDying(true);
+                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
             }else if(aniIndex==GetSpriteAmount(HURT)-1 && aniTick>= ANI_SPEED-1){//if Hurt Animation is Over then set GameOver is true
                 playing.setGameOver(true);
+                playing.getGame().getAudioPlayer().stopSong();
+                playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
             }else{//we are running HURT Animation
                 updateAnimationTick();
             }
@@ -141,6 +145,7 @@ public class Player extends Entity {
                 playing.checkObjectHit(attackBox);
                 playing.checkCannonBallHit(attackBox);
                 attackChecked = true; // mark that this frame has dealt damage
+                playing.getGame().getAudioPlayer().playAttackSound();
                 return;
             }
         }
@@ -292,9 +297,9 @@ public class Player extends Entity {
     }
 
     private void jump() {
-        if (inAir) {
+        if (inAir) 
             return;
-        }
+        playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
         inAir = true;
 
         airSpeed = jumpSpeed;
